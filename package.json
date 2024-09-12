@@ -3,9 +3,9 @@
   "productName": "my-app",
   "version": "1.0.0",
   "description": "My Electron application description",
-  "main": "src/index.js",
+  "main": "src/main.js",
   "scripts": {
-    "start": "electron-forge start",
+    "start": "electron .",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish",
@@ -23,13 +23,13 @@
     "@electron/fuses": "^1.8.0",
     "electron": "32.0.2"
   },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.1"
+  },
   "keywords": [],
   "author": {
     "name": "Jordan",
     "email": "escalj2@gmail.com"
   },
-  "license": "MIT",
-  "dependencies": {
-    "electron-squirrel-startup": "^1.0.1"
-  }
+  "license": "MIT"
 }
