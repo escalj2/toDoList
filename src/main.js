@@ -1,63 +1,40 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 
-let mainWindow;
-let newWindow;
-
 // Function to create the main window
-function createMainWindow() {
-    mainWindow = new BrowserWindow({
+function createWindow() {
+    const mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
-            contextIsolation: true,
-            enableRemoteModule: false
+            nodeIntegration: false,  // Security reasons
+            contextIsolation: true,  // Ensure no direct access to Node.js
         }
     });
 
-    mainWindow.loadFile(path.join(__dirname, 'index.html'));
+    // Load the main HTML file
+    mainWindow.loadFile('src/index.html');
 
-    mainWindow.webContents.openDevTools(); // Optional: Open DevTools for debugging
+    // Open dev tools automatically (if needed)
+    // mainWindow.webContents.openDevTools();
 }
 
-// Function to create a new blank window
-function createNewWindow() {
-    newWindow = new BrowserWindow({
-        width: 600,
-        height: 400,
-        webPreferences: {
-            preload: path.join(__dirname, 'preload.js'),
-            contextIsolation: true,
-            enableRemoteModule: false
-        }
-    });
-
-    newWindow.loadFile(path.join(__dirname, 'newlist.html')); // Load the blank interface
-
-    newWindow.webContents.openDevTools(); // Optional: Open DevTools for debugging
-}
-
-// Event listener for when the app is ready
+// When Electron is ready, create the window
 app.whenReady().then(() => {
-    createMainWindow();
+    createWindow();
 
-    app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createMainWindow();
+    app.on('activate', function () {
+        if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });
 });
 
-app.on('window-all-closed', () => {
+// Quit the app when all windows are closed
+app.on('window-all-closed', function () {
     if (process.platform !== 'darwin') app.quit();
 });
 
-// IPC event handlers
-ipcMain.on('add-list', () => {
-    console.log('Add list request received');
-    createNewWindow(); // Open a new window when "Add List" is clicked
-});
-
-ipcMain.on('delete-list', () => {
-    console.log('Delete list request received');
-    // Do nothing for now
+// Handling modal opening from renderer (via IPC)
+ipcMain.on('openModal', (event) => {
+    // Code to open modal window (optional if you want new window)
 });
