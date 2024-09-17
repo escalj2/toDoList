@@ -87,6 +87,9 @@
         <button id="deleteListBtn">Delete List</button>
     </div>
 
+    <!-- Container for lists -->
+    <div id="listContainer"></div>
+
     <!-- Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
@@ -107,15 +110,34 @@
         
         createListBtn.addEventListener('click', () => 
         {
-            // Get the title and note values
             const title = document.getElementById('listTitle').value;
             const note = document.getElementById('listNote').value;
 
-            // Log the values to the console (for testing purposes)
-            console.log(`Title: ${title}, Note: ${note}`);
+            if (title.trim() !== '' && note.trim() !== '') 
+                {
+                    // Create a new div for the list
+                    const listDiv = document.createElement('div');
+                    listDiv.className = 'list-item';
 
-            // Close the modal
-            modal.style.display = 'none';
+                    // Add title and note elements
+                    listDiv.innerHTML = `<h3>${title}</h3><p>${note}</p>`;
+
+                    // Append the new list to the container
+                    document.getElementById('listContainer').appendChild(listDiv);
+
+                    // Clear input fields
+                    document.getElementById('listTitle').value = '';
+                            document.getElementById('listNote').value = '';
+                    
+                    // Log the values to the console (for testing purposes)
+                    console.log(`Title: ${title}, Note: ${note}`);
+
+                    // Close the modal
+                    modal.style.display = 'none';
+                } else 
+                {
+                    alert("Please fill out both the title and note fields.");
+                }
         });
         
         // Open the modal
