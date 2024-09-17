@@ -1,5 +1,7 @@
 Day-by-Day Objectives for the To-Do List App:
 
+DONE:
+
     Day 1: Basic Setup
         Set up the basic Electron environment and ensure the app opens a blank window.
         Create the main index.html with a simple structure (e.g., header and buttons).
@@ -11,6 +13,10 @@ Day-by-Day Objectives for the To-Do List App:
     Day 3: List Creation Logic
         Implement logic so the "Create List" button logs list data in the console.
         Ensure the modal closes after clicking "Create List."
+
+
+TO DO:
+
 
     Day 4: Render Lists on Screen
         When "Create List" is clicked, render the list on the main screen below the buttons.
