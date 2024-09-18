@@ -19,13 +19,12 @@ DONE:
         When "Create List" is clicked, render the list on the main screen below the buttons.
         Style the lists nicely, so they look neat.
 
-
-TO DO:
-
-
     Day 5: Delete List Button
         Make the "Delete List" button functional.
         Allow users to remove the last list item they added.
+
+
+TO DO:
 
     Day 6: Add a Confirmation Modal
         Create a confirmation modal when deleting a list (optional, for safety).
