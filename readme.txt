@@ -14,13 +14,14 @@ DONE:
         Implement logic so the "Create List" button logs list data in the console.
         Ensure the modal closes after clicking "Create List."
 
-
-TO DO:
-
-
+    
     Day 4: Render Lists on Screen
         When "Create List" is clicked, render the list on the main screen below the buttons.
         Style the lists nicely, so they look neat.
+
+
+TO DO:
+
 
     Day 5: Delete List Button
         Make the "Delete List" button functional.
