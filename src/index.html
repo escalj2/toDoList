@@ -19,7 +19,7 @@
     <!-- Container for lists -->
     <div id="listContainer"></div>
 
-    <!-- Modal -->
+    <!-- Create List Modal -->
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&larr;</span>
@@ -27,6 +27,16 @@
             <input type="text" id="listTitle" placeholder="Title" />
             <input type="text" id="listNote" placeholder="Note" />
             <button class="create-list-btn" id="createListBtn">Create List</button>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal for Deleting a List -->
+    <div id="confirmationModal" class="modal">
+        <div class="modal-content">
+            <h2>Are you sure?</h2>
+            <p>Do you really want to delete the last list?</p>
+            <button id="confirmYesBtn">Yes</button>
+            <button id="confirmNoBtn">No</button>
         </div>
     </div>
 

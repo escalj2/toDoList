@@ -19,6 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // Grab the container where the lists will be added
     const listContainer = document.getElementById('listContainer');
 
+    // -------- Confirmation Modal Elements -------- //
+    const confirmationModal = document.getElementById('confirmationModal');
+    const confirmYesBtn = document.getElementById('confirmYesBtn');
+    const confirmNoBtn = document.getElementById('confirmNoBtn');
+   
+    
+
+
+
     // -------- Modal Functionality -------- //
 
     // Open the modal when the "Add List" button is clicked
@@ -79,18 +88,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
         });
 
+
+
+
+
+
     // -------- DELETE LIST Functionality -------- //
     deleteListBtn.addEventListener('click', () => 
         {
             // Check if there is at least one list item to delete
             if (listContainer.lastElementChild)
                 {
-                    // Remove the last list item added to the container
-                    listContainer.lastElementChild.remove();
+                    // Display confirmation message
+                    confirmationModal.style.display = 'block';
                 }
             else
                 {
                     alert("No lists detected");
                 }
         });
+        
+    // If 'Yes' button is clicked
+    confirmYesBtn.addEventListener('click', () =>
+    {
+        listContainer.lastElementChild.remove();
+        // Close confirmation modal
+        confirmationModal.style.display = 'none';
+    });
+
+    // If 'No' button is clicked
+    confirmNoBtn.addEventListener('click', () =>
+    {
+        // Close confirmation modal
+        confirmationModal.style.display = 'none';
+    });
 });
+
