@@ -1,126 +1,111 @@
-// Wait until the DOM is fully loaded before running any JavaScript code
 document.addEventListener('DOMContentLoaded', () => {
-
-    // Grab the modal element by its ID
+    // Grab the modal and button elements
     const modal = document.getElementById('myModal');
-
-    // Grab the button that opens the modal
     const openModalBtn = document.getElementById('addListBtn');
-
-    // Grab the 'close' element inside the modal (the back arrow)
     const closeModalBtn = document.getElementsByClassName('close')[0];
-
-    // Grab the 'Create List' button inside the modal
     const createListBtn = document.getElementById('createListBtn');
-
-    // Grab the 'Delete List' button on the main screen
     const deleteListBtn = document.getElementById('deleteListBtn');
-
-    // Grab the container where the lists will be added
     const listContainer = document.getElementById('listContainer');
-
-    // -------- Confirmation Modal Elements -------- //
     const confirmationModal = document.getElementById('confirmationModal');
     const confirmYesBtn = document.getElementById('confirmYesBtn');
     const confirmNoBtn = document.getElementById('confirmNoBtn');
-   
-    
 
+    // Initialize the lists array from localStorage or empty if not available
+    let lists = JSON.parse(localStorage.getItem('lists')) || [];
 
+    // Function to display the lists on the page
+    function displayLists() {
+        // Clear existing lists in the UI
+        listContainer.innerHTML = ''; 
 
-    // -------- Modal Functionality -------- //
+        // Loop through the lists and render each one
+        lists.forEach(list => {
+            const listDiv = document.createElement('div');
+            listDiv.className = 'list-item';
+            listDiv.innerHTML = `<h3>${list.title}</h3><p>${list.note}</p>`;
+            listContainer.appendChild(listDiv);
+        });
+    }
 
-    // Open the modal when the "Add List" button is clicked
-    openModalBtn.onclick = function() 
-        {
-            modal.style.display = 'block'; // Show the modal
-        }
+    // Function to save the lists array to localStorage
+    function saveLists() {
+        localStorage.setItem('lists', JSON.stringify(lists));
+    }
+
+    // Open the modal when "Add List" button is clicked
+    openModalBtn.onclick = function() {
+        modal.style.display = 'block'; // Show the modal
+    };
 
     // Close the modal when the 'close' element is clicked
-    closeModalBtn.onclick = function() 
-        {
-            modal.style.display = 'none'; // Hide the modal
-        }
+    closeModalBtn.onclick = function() {
+        modal.style.display = 'none'; // Hide the modal
+    };
 
     // Close the modal when clicking outside of it
-    window.onclick = function(event) 
-        {
-            if (event.target === modal) 
-                {
-                    modal.style.display = 'none'; // Hide the modal if outside area is clicked
-                }
+    window.onclick = function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none'; // Hide the modal if outside area is clicked
         }
+    };
 
     // -------- CREATE LIST Functionality -------- //
+    createListBtn.addEventListener('click', () => {
+        const title = document.getElementById('listTitle').value;
+        const note = document.getElementById('listNote').value;
 
-    // When the "Create List" button is clicked
-    createListBtn.addEventListener('click', () => 
-        {
-            // Get the values of the title and note inputs from the modal
-            const title = document.getElementById('listTitle').value;
-            const note = document.getElementById('listNote').value;
+        if (title.trim() !== '') {
+            // Add new list to the array
+            lists.push({ title, note });
 
-            // Check if title is empty
-            if (title.trim() !== '') 
-                {
-                // Create a new 'div' for each list item
-                const listDiv = document.createElement('div');
+            // Save the updated list array to localStorage
+            saveLists();
 
-                // Add class 'list-item' to each new list item for styling
-                listDiv.className = 'list-item';
+            // Redisplay the lists
+            displayLists();
 
-                // Add HTML for the title and note inside the list div
-                listDiv.innerHTML = `<h3>${title}</h3><p>${note}</p>`;
+            // Reset input fields
+            document.getElementById('listTitle').value = '';
+            document.getElementById('listNote').value = '';
 
-                // Append the new list item to the container on the main screen
-                listContainer.appendChild(listDiv);
-
-                // Reset input fields to empty for title and note
-                document.getElementById('listTitle').value = '';
-                document.getElementById('listNote').value = '';
-
-                // Close the modal after list creation
-                modal.style.display = 'none';
-                } 
-            else 
-                {
-                    alert("Title cannot be empty.");
-                }
-        });
-
-
-
-
-
+            // Close the modal
+            modal.style.display = 'none';
+        } else {
+            alert("Title cannot be empty.");
+        }
+    });
 
     // -------- DELETE LIST Functionality -------- //
-    deleteListBtn.addEventListener('click', () => 
-        {
-            // Check if there is at least one list item to delete
-            if (listContainer.lastElementChild)
-                {
-                    // Display confirmation message
-                    confirmationModal.style.display = 'block';
-                }
-            else
-                {
-                    alert("No lists detected");
-                }
-        });
-        
-    // If 'Yes' button is clicked
-    confirmYesBtn.addEventListener('click', () =>
-    {
-        listContainer.lastElementChild.remove();
+    deleteListBtn.addEventListener('click', () => {
+        if (lists.length > 0) {
+            // Display confirmation message
+            confirmationModal.style.display = 'block';
+        } else {
+            alert("No lists detected");
+        }
+    });
+
+    // If 'Yes' button is clicked in the confirmation modal
+    confirmYesBtn.addEventListener('click', () => {
+        // Remove the last list from the array
+        lists.pop();
+
+        // Save the updated lists array to localStorage
+        saveLists();
+
+        // Redisplay the lists
+        displayLists();
+
         // Close confirmation modal
         confirmationModal.style.display = 'none';
     });
 
-    // If 'No' button is clicked
-    confirmNoBtn.addEventListener('click', () =>
-    {
-        // Close confirmation modal
+    // If 'No' button is clicked in the confirmation modal
+    confirmNoBtn.addEventListener('click', () => {
+        // Close confirmation modal without deleting the list
         confirmationModal.style.display = 'none';
     });
+
+    // Display the lists when the app loads
+    displayLists();
 });
-

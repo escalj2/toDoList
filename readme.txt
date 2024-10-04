@@ -27,14 +27,11 @@ DONE:
         Create a confirmation modal when deleting a list (optional, for safety).
         Style and code the "Yes" and "No" buttons inside the confirmation modal.
 
-
-TO DO:
-
-    
-
     Day 7: Save Lists Locally
         Use local storage to save the lists, so when the app is closed and reopened, the lists remain.
         Ensure that lists persist after relaunch.
+
+TO DO:
 
     Day 8: Add Edit List Feature
         Add functionality to edit the list title or note.
