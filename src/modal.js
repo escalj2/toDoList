@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize the lists array from localStorage or empty if not available
     let lists = JSON.parse(localStorage.getItem('lists')) || [];
+    let editingIndex = null; // Tracks which item is being edited
 
     // Function to display the lists on the page
     function displayLists() {
@@ -19,17 +20,52 @@ document.addEventListener('DOMContentLoaded', () => {
         listContainer.innerHTML = ''; 
 
         // Loop through the lists and render each one
-        lists.forEach(list => {
+        lists.forEach((list, index) => {
             const listDiv = document.createElement('div');
             listDiv.className = 'list-item';
-            listDiv.innerHTML = `<h3>${list.title}</h3><p>${list.note}</p>`;
+            listDiv.innerHTML = `
+                        <h3>${list.title}</h3>
+                        <p>${list.note}</p>
+                        <button class="edit-btn" data-index="${index}">Edit</button>`;
             listContainer.appendChild(listDiv);
+        });
+
+        // Add event listener to the edit buttons
+        document.querySelectorAll('.edit-btn').forEach(btn => {
+            btn.addEventListener('click', (event) => {
+                const index = event.target.dataset.index;
+                editList(index);
+            });
         });
     }
 
     // Function to save the lists array to localStorage
     function saveLists() {
         localStorage.setItem('lists', JSON.stringify(lists));
+    }
+
+    // Function to handle editing a list item
+    function editList(index){
+        // Pre-fill modal fields with the current title and note
+        const list = lists[index];
+        document.getElementById('listTitle').value = list.title;
+        document.getElementById('listNote').value = list.note;
+        modal.style.display = 'block';
+        // Tracks which item is being edited
+        editingIndex = index;
+
+        // Change the button text to "Save Changes"
+        createListBtn.textContent = 'Save Changes';
+    }
+
+    // Reset modal button and input fields after adding or editing a list
+    function resetModal() {
+        document.getElementById('listTitle').value = '';
+        document.getElementById('listNote').value = '';
+        // Reset button text
+        createListBtn.textContent = 'Create List';
+        editingIndex = null;
+        modal.style.display = 'none'
     }
 
     // Open the modal when "Add List" button is clicked
@@ -49,14 +85,20 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // -------- CREATE LIST Functionality -------- //
+    // -------- CREATE OR EDIT LIST Functionality -------- //
     createListBtn.addEventListener('click', () => {
         const title = document.getElementById('listTitle').value;
         const note = document.getElementById('listNote').value;
 
         if (title.trim() !== '') {
-            // Add new list to the array
-            lists.push({ title, note });
+            if (editingIndex !== null){
+                lists[editingIndex] = {title, note};
+            }
+            else {
+                // Add new list to the array
+                lists.push({ title, note });
+            }
+        
 
             // Save the updated list array to localStorage
             saveLists();

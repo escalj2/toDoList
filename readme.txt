@@ -31,11 +31,11 @@ DONE:
         Use local storage to save the lists, so when the app is closed and reopened, the lists remain.
         Ensure that lists persist after relaunch.
 
-TO DO:
-
     Day 8: Add Edit List Feature
         Add functionality to edit the list title or note.
         Implement an "Edit" button next to each list item.
+
+TO DO:
 
     Day 9: Polish UI
         Improve the visual design of the app.
